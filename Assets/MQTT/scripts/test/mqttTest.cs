@@ -13,7 +13,7 @@ public class mqttTest : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// create client instance 
-		client = new MqttClient(IPAddress.Parse("143.185.118.233"),8080 , false , null ); 
+		client = new MqttClient(IPAddress.Parse("192.168.250.100"),1883 , false , null ); 
 		
 		// register to message received 
 		client.MqttMsgPublishReceived += client_MqttMsgPublishReceived; 
@@ -22,13 +22,13 @@ public class mqttTest : MonoBehaviour {
 		client.Connect(clientId); 
 		
 		// subscribe to the topic "/home/temperature" with QoS 2 
-		client.Subscribe(new string[] { "hello/world" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE }); 
+		client.Subscribe(new string[] { "hello/world" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+		client.Subscribe(new string[] { "M2MQTT_Unity/test" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
 	}
 	void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e) 
 	{ 
-
-		Debug.Log("Received: " + System.Text.Encoding.UTF8.GetString(e.Message)  );
+		Debug.Log("Received e.Topic: " + e.Topic + ", e.Message: " + System.Text.Encoding.UTF8.GetString(e.Message)  );
 	} 
 
 	void OnGUI(){
